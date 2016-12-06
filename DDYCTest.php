@@ -7,8 +7,8 @@
  * copyright DianDianYangChe
  * description:
  */
-require_once './DianDianYangCheSDK.php';
-$ddyc = new DianDianYangCheSDK();
+require_once './DDYC_SDK.php';
+$ddyc = new DDYC_SDK();
 $ddyc->setReturnType('ARRAY');// 设置返回类型 目前仅允许 ARRAY和JSON 可以根据需求自行扩展
 //=================违章查询条件==============
 //无参数 的调用
@@ -24,8 +24,8 @@ $params = [
     "vin" => "SALMN1H46CA385572",
     "phone" => "10112341142",
     "city" => "杭州市"];
-//$data = $ddyc->getViolationQuery($params);
-//print_r($data);exit;
+$data = $ddyc->getViolationQuery($params);
+print_r($data);exit;
 //================查询违章及费用==========
 $params = [
     "engineNo" => "0018835448DT",

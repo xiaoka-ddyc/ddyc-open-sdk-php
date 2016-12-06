@@ -8,15 +8,27 @@
  * description:总入口文件
  */
 define('DDYC_PATH', __DIR__);
+define('DDYC_ENV','TEST');//测试用 正式请用下面的
+//define('DDYC_ENV','PRODUCT');//正式环境上线请将该条注释解注释
+
 require_once DDYC_PATH . '/config/DDYCParams.php';
 require_once DDYC_PATH . '/config/DDYCApi.php';
 require_once DDYC_PATH . '/config/DDYCErrorCode.php';
 
-class DianDianYangCheSDK
+class DDYC_SDK
 {
     private $params;//入参
     private $returnType = 'JSON';//以JSON方式返回
     private $allowReturnType = ['JSON', 'ARRAY'];//允许的返回类型
+    private $baseUrl ;//OPEN API 地址
+
+    function __construct()
+    {
+        if (DDYC_ENV =='TEST')
+            $this->baseUrl = 'http://intb-open.ddyc.com:8090';
+        else
+            $this->baseUrl = 'http://openapi.ddyc.com';
+    }
 
     /**
      * @param array $params
@@ -216,8 +228,9 @@ class DianDianYangCheSDK
 
     private function _curl($type, $headers = array('Content-type: application/json;charset="utf-8"'))
     {
+
         $api = DDYCApi::getApi(lcfirst($type));
-        $url = DDYC_BASE_URL . $api['url'];
+        $url = $this->baseUrl . $api['url'];
         if ($api['method'] == 'GET') {
             $postData = '';
             $url .= '?' . http_build_query($this->params);
@@ -239,8 +252,10 @@ class DianDianYangCheSDK
         curl_setopt($oCurl, CURLOPT_TIMEOUT, DDYC_TIMEOUT);
         curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
         unset($this->params);
+        echo $postData."\n";echo $url."\n";
         $sContent = curl_exec($oCurl);
         $curl_error = false;
+        echo $sContent;
         if (false === $sContent) {
             $curl_error = curl_error($oCurl);
         }
@@ -259,12 +274,13 @@ class DianDianYangCheSDK
         list($url, $urlParam) = explode('?', $url);
         $urlParam .= (empty($urlParam) ? '' : '&') . http_build_query(array(
                 'app_key' => DDYC_APP_KEY,
-                'timestamp' => 1480938891//time()
+                'timestamp' => time()
             ));
         $param = explode('&', $urlParam);
         sort($param);
         $urlParam = implode("&", $param);
         $sign = strtoupper(md5(strrev(DDYC_APP_KEY . DDYC_APP_SECRET . $urlParam . $postData)));
+        echo DDYC_APP_KEY . DDYC_APP_SECRET . $urlParam . $postData."\n";
         return $url . "?" . $urlParam . '&sign=' . $sign;
     }
 
@@ -303,9 +319,10 @@ class DianDianYangCheSDK
         }
         if (!empty($paramsArr['normal'])) {
             foreach ($paramsArr['normal'] as $normalKey) {
-                if (isset($paramsData[$normalKey]) && $paramsData[$normalKey] !== null && $paramsData[$normalKey] != '') {
+                if (isset($paramsData[$normalKey]) && $paramsData[$normalKey] !== null ) 
                     $params[$normalKey] = $paramsData[$normalKey];
-                }
+                else
+                    $params[$normalKey] = '';//这里需要注意 需要补足参数
             }
         }
         $this->params = $params;

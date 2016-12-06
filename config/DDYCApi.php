@@ -8,7 +8,6 @@
  * copyright DianDianYangChe
  * description:
  */
-define('DDYC_BASE_URL', 'http://intb-open.ddyc.com:8090');//TODO 修改成正式环境的IP 并且加上签名算法
 define('DDYC_TIMEOUT', 15);
 define('DDYC_APP_KEY', '');//TODO 填上向典典养车申请的APP_KEY
 define('DDYC_APP_SECRET', '');//TODO 填上向典典养车申请的APP_SECRET
