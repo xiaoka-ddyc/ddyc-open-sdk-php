@@ -9,6 +9,7 @@
  */
 require_once './DianDianYangCheSDK.php';
 $ddyc = new DianDianYangCheSDK();
+$ddyc->setReturnType('ARRAY');// 设置返回类型 目前仅允许 ARRAY和JSON 可以根据需求自行扩展
 //=================违章查询条件==============
 //无参数 的调用
 //$data = $ddyc->getViolationCondition();
