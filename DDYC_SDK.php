@@ -273,7 +273,7 @@ class DDYC_SDK
         list($url, $urlParam) = explode('?', $url);
         $urlParam .= (empty($urlParam) ? '' : '&') . http_build_query(array(
                 'app_key' => DDYC_APP_KEY,
-                'timestamp' => time()
+                'timestamp' =>  floor(microtime(true)*1000),
             ));
         $param = explode('&', $urlParam);
         sort($param);
