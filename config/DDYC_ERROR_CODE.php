@@ -8,7 +8,7 @@
  * copyright DianDianYangChe
  * description:
  */
-class DDYCErrorCode
+class DDYC_ERROR_CODE
 {
     private static $errcodes = [
         0 => '',

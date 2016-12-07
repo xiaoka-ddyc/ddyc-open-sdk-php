@@ -8,7 +8,7 @@
  * copyright DianDianYangChe
  * description:
  */
-class DDYCParams
+class DDYC_PARAMS
 {
     private static $params = [
         //违章查询条件

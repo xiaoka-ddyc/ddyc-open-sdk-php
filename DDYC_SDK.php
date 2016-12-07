@@ -11,9 +11,9 @@ define('DDYC_PATH', __DIR__);
 define('DDYC_ENV','TEST');//测试用 正式请用下面的
 //define('DDYC_ENV','PRODUCT');//正式环境上线请将该条注释解注释
 
-require_once DDYC_PATH . '/config/DDYCParams.php';
-require_once DDYC_PATH . '/config/DDYCApi.php';
-require_once DDYC_PATH . '/config/DDYCErrorCode.php';
+require_once DDYC_PATH . '/config/DDYC_PARAMS.php';
+require_once DDYC_PATH . '/config/DDYC_API.php';
+require_once DDYC_PATH . '/config/DDYC_ERROR_CODE.php';
 
 class DDYC_SDK
 {
@@ -229,7 +229,7 @@ class DDYC_SDK
     private function _curl($type, $headers = array('Content-type: application/json;charset="utf-8"'))
     {
 
-        $api = DDYCApi::getApi(lcfirst($type));
+        $api = DDYC_API::getApi(lcfirst($type));
         $url = $this->baseUrl . $api['url'];
         if ($api['method'] == 'GET') {
             $postData = '';
@@ -252,10 +252,9 @@ class DDYC_SDK
         curl_setopt($oCurl, CURLOPT_TIMEOUT, DDYC_TIMEOUT);
         curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
         unset($this->params);
-        echo $postData."\n";echo $url."\n";
         $sContent = curl_exec($oCurl);
+//        echo $postData."\n";echo $url."\n";
         $curl_error = false;
-        echo $sContent;
         if (false === $sContent) {
             $curl_error = curl_error($oCurl);
         }
@@ -280,7 +279,7 @@ class DDYC_SDK
         sort($param);
         $urlParam = implode("&", $param);
         $sign = strtoupper(md5(strrev(DDYC_APP_KEY . DDYC_APP_SECRET . $urlParam . $postData)));
-        echo DDYC_APP_KEY . DDYC_APP_SECRET . $urlParam . $postData."\n";
+//        echo DDYC_APP_KEY . DDYC_APP_SECRET . $urlParam . $postData."\n";
         return $url . "?" . $urlParam . '&sign=' . $sign;
     }
 
@@ -299,7 +298,7 @@ class DDYC_SDK
      */
     private function _setParams($type, $paramsData)
     {
-        $paramsArr = DDYCParams::getParams($type);
+        $paramsArr = DDYC_PARAMS::getParams($type);
         $this->_checkParams($paramsArr, $paramsData);
         $this->_setParams0($paramsArr, $paramsData);
     }
@@ -366,7 +365,7 @@ class DDYC_SDK
     {
 //        header('Content-Type:application/json; charset=utf-8');
         $code = strval($code);
-        $msg = DDYCErrorCode::getErrCode($code);
+        $msg = DDYC_ERROR_CODE::getErrCode($code);
         $data = ['success' => $status, 'errCode' => $code, 'message' => $msg, 'data' => $data];
         if ($exit) {
             echo json_encode($data);
