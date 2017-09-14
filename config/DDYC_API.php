@@ -16,20 +16,20 @@ class DDYC_API
     private static $apis = [
         //违章查询条件
         'violationCondition' => [
-            'url' => '/violation/condition',
+            'url' => '/violation/condition/all/1.0',
             'method' => 'GET',],
         //违章查询条件【带省份】
         'violationConditionAll' => [
-            'url' => '/violation/condition/all',
+            'url' => '/violation/condition/all/1.0',
             'method' => 'GET',],
         //违章查询
         'violationQuery' => [
-            'url' => '/violation/query',
+            'url' => '/violation/query/1.0',
             'method' => 'POST',
         ],
         //查询违章及费用
         'violationQueryNeedFee' => [
-            'url' => '/violation/query',
+            'url' => '/violation/query/1.0',
             'method' => 'POST',
         ],
         //获取token

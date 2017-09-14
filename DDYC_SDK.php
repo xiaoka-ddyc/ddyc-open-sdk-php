@@ -25,7 +25,7 @@ class DDYC_SDK
     function __construct()
     {
         if (DDYC_ENV =='TEST')
-            $this->baseUrl = 'http://intb-open.ddyc.com:8090';
+            $this->baseUrl = 'https://int-open.ddyc.com:8443';
         else
             $this->baseUrl = 'http://openapi.ddyc.com';
     }
